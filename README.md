@@ -1,7 +1,7 @@
 # Problem Definition
 If you want to provision infrastructure by CI/CD job to make the development team self-sufficient, the main challenge to keep Cloud Credentials secured. CI/CD is not a trusted environment, credentials can not be stored on it either in the repo or runtime variable.
 
-In this repo you will find a terraform script to provision a Gitlab Runner on Azure as VM which system identity is enabled. 
+In this repo you will find a terraform script to provision a Gitlab Runner on Azure as VM and system identity is enabled. 
 
 I also try to fix a couple of common problems related Gitlab Runner provioning and terraform state.
 
@@ -18,7 +18,8 @@ For more information please visit : https://docs.microsoft.com/en-us/azure/activ
 
 
 ## How to apply the solution
-Please change variables to apply terraform script, below instruction will provision 
+Please change variables to apply terraform script
+
 - make sure to have azure cli installed
 - make sure to have terraform installed
 - make sure to have azure subscription with required permission
@@ -38,5 +39,7 @@ terraform apply /
 -var="gitlab_token=<token>" 
 ```
 
-Once you run the script it will provision gitlab-runner, then you are ready to run Gitlab pipeline to provision infrastruture by terraform script and you do not specify any credentials.
+Once you run the script it will provision gitlab-runner, then you are ready to use this runner to provision infrastructure by terraform as Gitlab pipeline.
+
+Good part is that, you do not specify any credentials, VM itself already has permission to provision resources on Azure.
 
