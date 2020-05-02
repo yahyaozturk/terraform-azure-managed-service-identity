@@ -1,0 +1,30 @@
+#!/bin/bash
+sudo apt-get update
+
+# install jq and unzip packages
+sudo apt-get install jq unzip -y
+
+# install terraform
+wget https://releases.hashicorp.com/terraform/0.12.23/terraform_0.12.23_linux_amd64.zip
+unzip terraform_0.12.23_linux_amd64.zip
+sudo mv terraform /usr/local/bin/
+terraform --version
+
+# install gitlab-runner
+curl -LJO https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb
+sudo dpkg -i gitlab-runner_amd64.deb
+
+# register gitlab-runner
+sudo gitlab-runner register \
+  --non-interactive \
+  --url "${gitlab_server}" \
+  --registration-token "${gitlab_token}" \
+  --executor shell \
+  --description "azure-runner" \
+  --tag-list "terraform,azure" \
+  --run-untagged="true" \
+  --locked="false" \
+  --access-level="not_protected"
+
+# install azure cli
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
